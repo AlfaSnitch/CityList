@@ -10,8 +10,10 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.espresso.Espresso.onView;
 
 import static org.hamcrest.CoreMatchers.anything;
+import static org.hamcrest.CoreMatchers.any;
 
 import androidx.test.espresso.Espresso;
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -74,6 +76,27 @@ public class MainActivityTest {
 
         onData(anything()).inAdapterView(withId(R.id.city_list)).atPosition(0).perform(click()); //Check the content on the list - no content in this case
         Espresso.pressBack(); //Back button
+    }
+
+    @Test
+    public void assignment2(){
+        onView(withId(R.id.button_add)).perform(click());
+        onView(withId(R.id.editText_name)).perform(ViewActions.typeText("Edmonton"));
+        onView(withId(R.id.button_confirm)).perform(click());
+        Espresso.pressBack();
+
+        onView(withId(R.id.button_add)).perform(click());
+        onView(withId(R.id.editText_name)).perform(ViewActions.typeText("Khulna"));
+        onView(withId(R.id.button_confirm)).perform(click());
+        Espresso.pressBack();
+
+        onData(anything()).inAdapterView(withId((R.id.city_list))).atPosition(1).perform(click());
+
+        onView(withId(R.id.second)).check(matches(isDisplayed()));
+        onView(withText("Khulna")).check(matches(isDisplayed()));
+
+        onView(withId(R.id.button)).perform(click());
+        onView(withId(R.id.main)).check(matches(isDisplayed()));
     }
 
 }
